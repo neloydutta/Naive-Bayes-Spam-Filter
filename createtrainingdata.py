@@ -16,7 +16,7 @@ def create():
                     if 'Subject:' in data:
                         data.replace('Subject: ','')
                     traindata[data] = file
-    with open('train.json','w') as td:
+    with open('trainingdata.json','w') as td:
         json.dump(traindata, td)
 
 
