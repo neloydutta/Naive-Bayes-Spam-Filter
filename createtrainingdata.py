@@ -3,6 +3,7 @@ import json
 
 traindata = {}
 
+
 def create():
     cwd = os.getcwd()
     print cwd
@@ -12,14 +13,13 @@ def create():
             for i in os.listdir(folderlocation):
                 filename = os.path.join(folderlocation, i)
                 with open(filename, 'r') as ip:
-                    data = ip.read();
+                    data = ip.read()
                     if 'Subject:' in data:
-                        data.replace('Subject: ','')
+                        data.replace('Subject: ', '')
                     traindata[data] = file
 
     with open('trainingdata.json', 'w') as td:
         json.dump(traindata, td)
-
 
 
 if __name__ == "__main__":
