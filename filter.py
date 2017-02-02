@@ -3,10 +3,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import os
 
-training_data = {}
-word_table = {}
-#class_frequency = {}
-
 
 def train(body, label):
     with open('trainingdata.json') as td:
@@ -23,6 +19,8 @@ def generate_frequency_table():
         training_data = json.load(td)
     with open('frequency.json') as cf:
         class_frequency = json.load(cf)
+    with open('wordtable.json') as wt:
+        word_table = json.load(wt)
 
     for i in training_data.keys():
         words = word_tokenize(i, language='english')
