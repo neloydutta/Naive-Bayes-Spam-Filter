@@ -1,7 +1,7 @@
+import email
 import json
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import os
 
 
 def train(body, label):
@@ -9,9 +9,9 @@ def train(body, label):
         traindata = json.load(td)
     training_data = traindata
     training_data[body] = label
-    print training_data
     with open('trainingdata.json', 'w+') as td:
         json.dump(training_data, td)
+    generate_frequency_table()
 
 
 def generate_frequency_table():
@@ -109,7 +109,27 @@ def classify(text):
 
 
 if __name__ == "__main__":
-    generate_frequency_table()
-    spam, not_spam = classify("is this a spam!")
+    filename = ""
+    f = open(filename, 'r')
+    a = email.message_from_file(f)
+    f.close()
+    message = "empty"
+    if not a.is_multipart() and a.get_content_type() == 'text/plain':
+        message = a.get_payload()
+        try:
+            message.encode('ascii')
+        except Exception:
+            print "Email payload couldn't be extracted!"
+            exit(1)
+    else:
+        message = ""
+        for i in a.walk():
+            if i.get_content_type() == 'text/plain':
+                message += i.get_payload() + " "
+                try:
+                    message.encode('ascii')
+                except Exception:
+                    continue
+    spam, not_spam = classify("claim your 10000000 rupees")
     print "Spam: " + str(spam)
     print "Not_Spam: " + str(not_spam)
